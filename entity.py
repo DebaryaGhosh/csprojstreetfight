@@ -63,6 +63,7 @@ def animate(entity_state, defender_state, attack_data):
     
     entity_state['frame_index'] += entity_state['animation_speed']
 
+    # improvements to be made to the animation to accommodate for 'reaction time' feature.
     if entity_state['frame_index'] >= len(animation):
         if entity_state['is_jumping']:
             entity_state['frame_index'] = len(animation) - 1
