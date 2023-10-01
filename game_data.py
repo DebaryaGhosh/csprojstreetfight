@@ -45,6 +45,7 @@ def initialize_player():
             'idle': [],
             'walk': [],
             'jump': [],
+            'inair': [],
             'lpunch': [],
             'hkick': [],
             'block': [],
@@ -57,6 +58,7 @@ def initialize_player():
             'idle': [],
             'walk': [],
             'jump': [],
+            'inair': [],
             'lpunch': [],
             'hkick': [],
             'block': [],
@@ -103,6 +105,7 @@ def initialize_player():
         'is_attacking': False,
         'attack_time': 0,
         'attack_cooldown': 400,
+        'inair': False,
 
         # animation data
         'animations': animations,

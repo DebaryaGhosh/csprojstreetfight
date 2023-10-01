@@ -8,9 +8,10 @@ from random import randint
 # updates the player. 
 def update_player(player_state, enemy_state, attack_data, background_data):
     player.get_status(player_state)
-    player.key_input(player_state, background_data)
+    player.key_input(player_state)
     entity.move_entity(player_state)
-    entity.animate(player_state, enemy_state, attack_data)
+    player.get_status(player_state)
+    entity.animate(player_state, enemy_state, attack_data, background_data)
     player.collisions(player_state)
     player.cooldowns(player_state)
 
@@ -18,7 +19,7 @@ def update_enemy(enemy_state, player_state, background_data, attack_data):
     enemy.get_status(enemy_state)
     enemy.enemy_ai(enemy_state, player_state, background_data)
     entity.move_entity(enemy_state)
-    entity.animate(enemy_state, player_state, attack_data)
+    entity.animate(enemy_state, player_state, attack_data, background_data)
     enemy.collisions(enemy_state)
     enemy.cooldowns(enemy_state)
 
@@ -32,7 +33,8 @@ def update_background(background_data, player):
     for index, background in enumerate(background_data['backgrounds']):
         if player['rect'].x > 485 and player['rect'].x < 1140:
             background_data['offset'].x = player['rect'].centerx - background_data['half_width']
-        background_data['offset'].y = player['rect'].centery - background_data['half_height']
+        if player['rect'].y > 100:
+            background_data['offset'].y = player['rect'].centery - background_data['half_height']
 
         rect = background.get_rect(topleft = (0, -150))
         bg_offset = pygame.math.Vector2()

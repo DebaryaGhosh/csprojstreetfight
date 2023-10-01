@@ -50,7 +50,7 @@ while game_is_on:
     screen.blit(enemy_state['image'], enemy_state['offset'])
     screen.blit(player_state['image'], player_state['offset'])
     #debug((enemy_state['is_attacking'], enemy_state['status'], enemy_state['attack_animation_playing'], enemy_state['attack_cooldown']))
-    debug((enemy_state['is_attacking']))
+    debug((player_state['inair'], player_state['is_jumping']))
     
     
     pygame.display.update()

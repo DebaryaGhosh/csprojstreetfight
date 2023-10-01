@@ -18,6 +18,7 @@ ATTACK_MOVES_LIST = [
     'mhpunch',
     'lmkick',
     'fwjump',
+    'jump',
 ]
 
 BUTTON_MAP = {
