@@ -20,7 +20,7 @@ def initialize_move(entity_state, move):
     
     if entity_state['name'] == 'player':
         if move == 'jump':
-            entity_state['y_vel'] = -40
+            entity_state['y_vel'] = -25
             entity_state['is_jumping'] = True
         
         if move == 'lpunch':
@@ -57,7 +57,7 @@ def move_entity(entity_state):
         
 
 # animates the player.
-def animate(entity_state, defender_state, attack_data):
+def animate(entity_state, defender_state, attack_data, background_data):
     # selects animation. face direction chooses the sprite corresponding to the side they are facing.
     animation = entity_state['animations'][entity_state['face_direction']][entity_state['status']]
     
@@ -65,16 +65,21 @@ def animate(entity_state, defender_state, attack_data):
 
     # improvements to be made to the animation to accommodate for 'reaction time' feature.
     if entity_state['frame_index'] >= len(animation):
-        if entity_state['is_jumping']:
-            entity_state['frame_index'] = len(animation) - 1
-            if entity_state['y_vel'] > 0:
-                entity_state['attack_animation_playing'] = False
-        elif entity_state['status'] in ATTACK_MOVES_LIST:
-            check_attack(entity_state, defender_state, attack_data)
-            entity_state['frame_index'] = 0
+        # if entity_state['is_jumping']:
+        #     entity_state['frame_index'] = len(animation) - 1
+        #     if entity_state['y_vel'] > 0:
+        #         entity_state['attack_animation_playing'] = False
+        if entity_state['status'] in ATTACK_MOVES_LIST:
+            check_attack(entity_state, defender_state, attack_data, background_data)
             entity_state['attack_animation_playing'] = False
+            # entity_state['frame_index'] = 0
+            
+        # else:
+        if entity_state['is_jumping']:
+            entity_state['frame_index'] -= 1
         else:
             entity_state['frame_index'] = 0
+        
             
         if defender_state['hitbox'].x - entity_state['hitbox'].x > 0: 
             entity_state['face_direction'] = 1
@@ -98,15 +103,17 @@ def entity_set_idle_values(entity_state):
     entity_state['direction'].y = 0
     entity_state['animation_speed'] = 0.15
 
-def check_attack(attacker, defender, attack_data):
+def check_attack(attacker, defender, attack_data, background_data):
     if abs(attacker['hitbox'].x - defender['hitbox'].x) < 200 and defender['is_vulnerable']:
         attack = attacker['status']
-        defense = defender['status'] 
+        defense = defender['status']
 
         if attack in ATTACK_MOVES_LIST:
             if defense == 'block' or attack == 'crouch': return
             if attack == 'block' or attack == 'crouch': return
+            if attack == 'jump': return
             defender['health'] -= attack_data[attack]['attack']
+            background_data['bgshake_time'] = pygame.time.get_ticks()
             if defender['health'] < 0:
                 defender['health'] = 0
             defender['is_vulnerable'] = False
