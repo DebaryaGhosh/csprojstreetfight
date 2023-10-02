@@ -10,11 +10,9 @@ STAGE_HEIGHT = 180
 
 screens = {
     'intro': 'intro',
-    'menu': 'menu',
+    'map': 'map',
     'level': 'level',
 }
-
-
 
 GRAVITY = 1
 

@@ -321,7 +321,13 @@ def initialize_ui():
     play = pygame.image.load('./graphics/intro/ui/play.png').convert_alpha()
     play_rect = play.get_rect(center = display.center)
 
+    level_map = pygame.image.load('./graphics/map/map1.png').convert_alpha()
+    level_map_rect = level_map.get_rect(center = display.center)
+
     ui_data = {
+
+        'current_state': screens['intro'],
+
         'timer_font': timer_font,
         'names_font': names_font,
 
@@ -347,16 +353,24 @@ def initialize_ui():
         'intro_backgrounds': intro_background_anim,
         'background_anim_frameindex': 0,
         'background_anim_speed': 0.15,
+        'transition': False,
+        'intro_alpha': 255,
 
         'logo_img': logo,
         'logo_rect': logo_rect,
+        'logo_alpha': 255,
+        'logo_alpha_transition_delay_time': 0,
+        'logo_alpha_transition_delay': 3000,
+
 
         'play_img': play,
         'play_rect': play_rect,
         'play_blit_rect': None,
-        'hinum': 0,
+        'play_alpha': 255,
 
-        'current_state': screens['intro'],
+        'level_map': level_map,
+        'level_map_rect': level_map_rect,
+        
     }
     return ui_data
 
