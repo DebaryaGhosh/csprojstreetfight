@@ -5,6 +5,7 @@ from support import *
 from debug import debug
 from game_updates import *
 from intro import run_intro
+from level_map import *
 
 pygame.init()
 
@@ -30,7 +31,6 @@ def run_game(player_state, enemy_state, background_data, ui_data, attack_data):
     update_background(background_data, player_state)
     blit_entities(player_state, enemy_state, background_data)
     update_ui(ui_data, [player_state, enemy_state, background_data])
-    
 
 # game loop
 while game_is_on:
@@ -43,13 +43,15 @@ while game_is_on:
     screen.fill('black')
 
     # screen manager
-    if ui_data['current_state'] == 'intro':
+    if ui_data['current_state'] == screens['intro']:
         run_intro(ui_data, event_list)
-    elif ui_data['current_state'] == 'level':
+    elif ui_data['current_state'] == screens['map']:
+        run_level_map(ui_data)
+    elif ui_data['current_state'] == screens['level']:
         run_game(player_state, enemy_state, background_data, ui_data, attack_data)
 
     # debug
-    debug((player_state['inair'], player_state['is_jumping']))
+    debug((ui_data['intro_alpha']))
     
     # misc.
     pygame.display.update()
