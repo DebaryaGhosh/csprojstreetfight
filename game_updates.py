@@ -49,3 +49,16 @@ def update_background(background_data, player):
 
 def update_ui(ui_data, data):
     display(data[0], data[1], ui_data, data)
+
+def blit_entities(player_state, enemy_state, background_data):
+    screen = pygame.display.get_surface()
+
+    if background_data['bgshake']:
+        player_state['offset'] = player_state['rect'].topleft - background_data['shake_offset'] + pygame.math.Vector2(0, 80)
+        enemy_state['offset'] = enemy_state['rect'].topleft - background_data['shake_offset'] + pygame.math.Vector2(0, -30)
+    else:
+        player_state['offset'] = player_state['rect'].topleft - background_data['offset'] + pygame.math.Vector2(0, 80)
+        enemy_state['offset'] = enemy_state['rect'].topleft - background_data['offset'] + pygame.math.Vector2(0, -30)
+
+    screen.blit(enemy_state['image'], enemy_state['offset'])
+    screen.blit(player_state['image'], player_state['offset'])
