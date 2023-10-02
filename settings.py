@@ -8,6 +8,14 @@ GAME_TITLE = 'Street Fight'
 
 STAGE_HEIGHT = 180
 
+screens = {
+    'intro': 'intro',
+    'menu': 'menu',
+    'level': 'level',
+}
+
+
+
 GRAVITY = 1
 
 ATTACK_MOVES_LIST = [

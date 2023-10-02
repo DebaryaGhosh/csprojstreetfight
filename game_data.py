@@ -309,6 +309,18 @@ def initialize_ui():
     ryu_name_rect = pygame.Rect(100, 35, 100, 50)
     thawk_name_rect = pygame.Rect(800, 35, 100, 50)
 
+    display = pygame.display.get_surface().get_rect()
+
+    intro_background_anim = import_folder('./graphics/intro/background')
+    intro_background_img = pygame.image.load('./graphics/intro/background/frame_00_delay-0.08s.png').convert_alpha()
+    intro_background_rect = intro_background_img.get_rect(topleft = display.topleft)
+
+    logo = pygame.image.load('./graphics/intro/ui/logo.png').convert_alpha()
+    logo_rect = logo.get_rect(center = display.center)
+
+    play = pygame.image.load('./graphics/intro/ui/play.png').convert_alpha()
+    play_rect = play.get_rect(center = display.center)
+
     ui_data = {
         'timer_font': timer_font,
         'names_font': names_font,
@@ -328,7 +340,20 @@ def initialize_ui():
         'timer_start': timer_start,
         'timer_rect': timer_rect,
         'time_passed': 0,
-        'max_time': 3000 * 100
+        'max_time': 3000 * 100,
+
+        'intro_background_img': intro_background_img,
+        'intro_background_rect': intro_background_rect,
+        'intro_backgrounds': intro_background_anim,
+        'background_anim_frameindex': 0,
+        'background_anim_speed': 0.15,
+
+        'logo_img': logo,
+        'logo_rect': logo_rect,
+
+        'play_img': play,
+        'play_rect': play_rect,
+        'play_blit_rect': None,
     }
     return ui_data
 
