@@ -23,16 +23,16 @@ def show_logo(ui_data):
 
 def show_button(surf, rect, offset, ui_data):
     display = pygame.display.get_surface()
-    ui_data['play_blit_surf'] = display.blit(surf, rect.topleft + offset)
+    ui_data['play_blit_rect'] = display.blit(surf, rect.topleft + offset)
 
-def check_button_click(ui_data, current_state):
-    for event in pygame.event.get():
+def check_button_click(ui_data, event_list):
+    for event in event_list:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             pos = pygame.mouse.get_pos()
-            if ui_data['play_rect'].collidepoint(pos):
-                current_state = screens['level']
+            if ui_data['play_blit_rect'].collidepoint(pos):
+                ui_data['current_state'] = 'level'
 
-def run_intro(ui_data, current_state):
+def run_intro(ui_data, event_list):
 
     # backgrounds
     animate_background(ui_data)
@@ -45,6 +45,6 @@ def run_intro(ui_data, current_state):
     show_button(ui_data['play_img'], ui_data['play_rect'], pygame.math.Vector2(0, 150), ui_data)
 
     # check if buttons are clicked
-    check_button_click(ui_data, current_state)
+    check_button_click(ui_data, event_list)
 
 

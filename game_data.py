@@ -354,6 +354,9 @@ def initialize_ui():
         'play_img': play,
         'play_rect': play_rect,
         'play_blit_rect': None,
+        'hinum': 0,
+
+        'current_state': screens['intro'],
     }
     return ui_data
 
