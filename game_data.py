@@ -283,11 +283,11 @@ def initialize_background():
     return background_data
 
 def initialize_audio():
-
-    pygame.mixer.music.load('./audio/forest_of_death.mp3')
+    pygame.mixer.init()
+    pygame.mixer.music.load('./audio/menu.mp3')
     pygame.mixer.music.set_volume(0.5)
 
-    #pygame.mixer.music.play(-1)
+    pygame.mixer.music.play(-1)
 
 def initialize_ui():
 

@@ -1,6 +1,5 @@
 import pygame
 from settings import *
-import math
 
 def animate_background(ui_data):
     animation = ui_data['intro_backgrounds']
@@ -51,6 +50,9 @@ def check_button_click(ui_data, event_list):
             if ui_data['play_blit_rect'].collidepoint(pos):
                 ui_data['transition'] = True
                 ui_data['play_alpha'] = 0
+                click = pygame.mixer.Sound('./audio/sfx/ui/button_click.wav')
+                click.play()
+                
 
 def run_intro(ui_data, event_list):
 
