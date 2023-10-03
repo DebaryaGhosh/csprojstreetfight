@@ -120,6 +120,7 @@ def initialize_player():
             'attack': 5,
             'defense': 7,
             'speed': 10,
+            'coins': 0,
         },
         'health': stats['health'],
         'attack': stats['attack'],
@@ -318,11 +319,16 @@ def initialize_ui():
     logo = pygame.image.load('./graphics/intro/ui/logo.png').convert_alpha()
     logo_rect = logo.get_rect(center = display.center)
 
-    play = pygame.image.load('./graphics/intro/ui/play.png').convert_alpha()
+    play = pygame.image.load('./graphics/intro/ui/play_n.png').convert_alpha()
+    play_h = pygame.image.load('./graphics/intro/ui/play_h.png').convert_alpha()
     play_rect = play.get_rect(center = display.center)
 
     level_map = pygame.image.load('./graphics/map/map1.png').convert_alpha()
     level_map_rect = level_map.get_rect(center = display.center)
+
+    thawk_map_icon = pygame.image.load('./graphics/map/ui/icons/thawk_icon_n.png').convert_alpha()
+    thawk_map_icon_h = pygame.image.load('./graphics/map/ui/icons/thawk_icon_h.png').convert_alpha()
+    thawk_map_icon_rect = thawk_map_icon.get_rect(center = (138, 232))
 
     ui_data = {
 
@@ -364,12 +370,20 @@ def initialize_ui():
 
 
         'play_img': play,
+        'play_n': play,
+        'play_h': play_h,
         'play_rect': play_rect,
         'play_blit_rect': None,
         'play_alpha': 255,
 
         'level_map': level_map,
         'level_map_rect': level_map_rect,
+
+        'thawk_map_icon_img': thawk_map_icon,
+        'thawk_map_icon_n': thawk_map_icon,
+        'thawk_map_icon_h': thawk_map_icon_h,
+        'thawk_map_icon_rect': thawk_map_icon_rect,
+        'thawk_map_icon_blit_rect': None,
         
     }
     return ui_data

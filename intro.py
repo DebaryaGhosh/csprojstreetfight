@@ -52,6 +52,13 @@ def check_button_click(ui_data, event_list):
                 ui_data['play_alpha'] = 0
                 click = pygame.mixer.Sound('./audio/sfx/ui/button_click.wav')
                 click.play()
+
+def highlight_button(ui_data):
+    pos = pygame.mouse.get_pos()
+    if ui_data['play_blit_rect'].collidepoint(pos):
+        ui_data['play_img'] = ui_data['play_h']
+    else:
+        ui_data['play_img'] = ui_data['play_n']
                 
 
 def run_intro(ui_data, event_list):
@@ -69,6 +76,7 @@ def run_intro(ui_data, event_list):
     # buttons
     ui_data['play_img'].set_alpha(ui_data['play_alpha'])
     show_button(ui_data['play_img'], ui_data['play_rect'], pygame.math.Vector2(0, 150), ui_data)
+    highlight_button(ui_data)
 
     # check if buttons are clicked
     if not ui_data['transition']:

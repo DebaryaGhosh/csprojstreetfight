@@ -26,8 +26,8 @@ initialize_audio()
 
 def run_game(player_state, enemy_state, background_data, ui_data, attack_data):
     
-    update_player(player_state, enemy_state, attack_data, background_data)
-    update_enemy(enemy_state, player_state, background_data, attack_data)
+    update_player(player_state, enemy_state, attack_data, background_data, ui_data)
+    update_enemy(enemy_state, player_state, background_data, attack_data, ui_data)
     update_background(background_data, player_state)
     blit_entities(player_state, enemy_state, background_data)
     update_ui(ui_data, [player_state, enemy_state, background_data])
@@ -46,7 +46,7 @@ while game_is_on:
     if ui_data['current_state'] == screens['intro']:
         run_intro(ui_data, event_list)
     elif ui_data['current_state'] == screens['map']:
-        run_level_map(ui_data)
+        run_level_map(ui_data, event_list)
     elif ui_data['current_state'] == screens['level']:
         run_game(player_state, enemy_state, background_data, ui_data, attack_data)
 
