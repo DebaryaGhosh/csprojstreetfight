@@ -57,7 +57,7 @@ def move_entity(entity_state):
         
 
 # animates the player.
-def animate(entity_state, defender_state, attack_data, background_data):
+def animate(entity_state, defender_state, attack_data, background_data, ui_data):
     # selects animation. face direction chooses the sprite corresponding to the side they are facing.
     animation = entity_state['animations'][entity_state['face_direction']][entity_state['status']]
     
@@ -70,7 +70,7 @@ def animate(entity_state, defender_state, attack_data, background_data):
         #     if entity_state['y_vel'] > 0:
         #         entity_state['attack_animation_playing'] = False
         if entity_state['status'] in ATTACK_MOVES_LIST:
-            check_attack(entity_state, defender_state, attack_data, background_data)
+            check_attack(entity_state, defender_state, attack_data, background_data, ui_data)
             entity_state['attack_animation_playing'] = False
             # entity_state['frame_index'] = 0
             
@@ -103,7 +103,7 @@ def entity_set_idle_values(entity_state):
     entity_state['direction'].y = 0
     entity_state['animation_speed'] = 0.15
 
-def check_attack(attacker, defender, attack_data, background_data):
+def check_attack(attacker, defender, attack_data, background_data, ui_data):
     if abs(attacker['hitbox'].x - defender['hitbox'].x) < 200 and defender['is_vulnerable']:
         attack = attacker['status']
         defense = defender['status']
@@ -115,6 +115,11 @@ def check_attack(attacker, defender, attack_data, background_data):
             defender['health'] -= attack_data[attack]['attack']
             background_data['bgshake_time'] = pygame.time.get_ticks()
             if defender['health'] < 0:
-                defender['health'] = 0
+                # defender['health'] = 0
+                ui_data['current_state'] = screens['map']
+                pygame.mixer.music.load('./audio/menu.mp3')
+                pygame.mixer.music.set_volume(0.5)
+                pygame.mixer.music.play(-1)
+                
             defender['is_vulnerable'] = False
             defender['vulnerability_time'] = pygame.time.get_ticks()
