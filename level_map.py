@@ -32,7 +32,7 @@ def check_icon_click(ui_data, event_list):
                 click = pygame.mixer.Sound('./audio/sfx/ui/button_click.wav')
                 click.play()
                 pygame.mixer.music.stop()
-                pygame.mixer.music.load('./audio/forest_of_death.mp3')
+                pygame.mixer.music.load('./audio/black_warrior.mp3')
                 pygame.mixer.music.set_volume(0.5)
                 pygame.mixer.music.play(-1)
 

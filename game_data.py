@@ -328,7 +328,7 @@ def initialize_ui():
 
     thawk_map_icon = pygame.image.load('./graphics/map/ui/icons/thawk_icon_n.png').convert_alpha()
     thawk_map_icon_h = pygame.image.load('./graphics/map/ui/icons/thawk_icon_h.png').convert_alpha()
-    thawk_map_icon_rect = thawk_map_icon.get_rect(center = (138, 232))
+    thawk_map_icon_rect = thawk_map_icon.get_rect(center = (138, 180))
 
     ui_data = {
 
