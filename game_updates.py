@@ -62,3 +62,25 @@ def blit_entities(player_state, enemy_state, background_data):
 
     screen.blit(enemy_state['image'], enemy_state['offset'])
     screen.blit(player_state['image'], player_state['offset'])
+
+def countdown(ui_data):
+    display = pygame.display.get_surface()
+    current_time = pygame.time.get_ticks()
+    time_passed = current_time - ui_data['countdown_text_time']
+    if time_passed <= ui_data['countdown_text_duration']:
+        ui_data['countdown_mask'].set_alpha(100)
+        display.blit(ui_data['countdown_mask'], ui_data['countdown_mask_rect'])
+        if time_passed < 3000:
+            # numbers
+            number = 3 - int(time_passed / 1000)
+            path = 'count' + str(number) + '_text'
+            text = ui_data[path]
+            rect = ui_data[path + '_rect']
+
+            display.blit(text, rect)
+        else:
+            # fight text
+            display.blit(ui_data['fight_text'], ui_data['fight_text_rect'])
+        
+        return True
+    return False
