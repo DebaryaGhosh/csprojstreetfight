@@ -31,7 +31,7 @@ def initialize_player():
     sprite = pygame.sprite.Sprite()
     img = pygame.image.load('./graphics/ryu/idle/idle0.png').convert_alpha()
     rect = img.get_rect()
-    rect.x = 500
+    rect.x = 700
     rect.y = STAGE_HEIGHT
     hitbox = rect
     
@@ -120,12 +120,12 @@ def initialize_player():
             'attack': 5,
             'defense': 7,
             'speed': 10,
-            'coins': 0,
         },
         'health': stats['health'],
         'attack': stats['attack'],
         'defense': stats['defense'],
         'speed': stats['speed'],
+        'coins': 69420,
 
         # vulnerability
         'is_vulnerable': False,
@@ -190,7 +190,7 @@ def initialize_enemy():
     #stats
     status = 'idle'
     stats = {
-        'health': 100,
+        'health': 100 * 3,
         'attack': 6,
         'defense': 7,
         'speed': 3,
@@ -230,7 +230,7 @@ def initialize_enemy():
         #stats
         'status': status,
         'stats': {
-        'health': 100,
+        'health': 100 * 3,
         'attack': 6,
         'defense': 7,
         'speed': 3,
@@ -294,6 +294,7 @@ def initialize_ui():
 
     timer_font = pygame.font.Font(UI_FONT, TIMER_FONT_SIZE)
     names_font = pygame.font.Font(UI_FONT, NAMES_FONT_SIZE)
+    coins_font = pygame.font.Font(UI_FONT, COINS_FONT_SIZE)
 
     player_health_bar_rect = pygame.Rect(50, 70, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT)
     player_mugshot_rect = pygame.Rect(0, 0, 150, 150)
@@ -330,12 +331,29 @@ def initialize_ui():
     thawk_map_icon_h = pygame.image.load('./graphics/map/ui/icons/thawk_icon_h.png').convert_alpha()
     thawk_map_icon_rect = thawk_map_icon.get_rect(center = (138, 180))
 
+    fight_text = pygame.image.load('./graphics/map/ui/text/fight.png').convert_alpha()
+    fight_text_rect = fight_text.get_rect(center = display.center)
+
+    count3_text = pygame.image.load('./graphics/map/ui/text/3.png').convert_alpha()
+    count3_text_rect = count3_text.get_rect(center = display.center)
+    count2_text = pygame.image.load('./graphics/map/ui/text/2.png').convert_alpha()
+    count2_text_rect = count2_text.get_rect(center = display.center)
+    count1_text = pygame.image.load('./graphics/map/ui/text/1.png').convert_alpha()
+    count1_text_rect = count1_text.get_rect(center = display.center)
+
+    countdown_mask = pygame.image.load('./graphics/map/ui/text/countdown_mask.png').convert_alpha()
+    countdown_mask_rect = countdown_mask.get_rect(topleft = display.topleft)
+
+    coinmeter = pygame.image.load('./graphics/map/ui/icons/coin_meter.png').convert_alpha()
+    coinmeter_rect = coinmeter.get_rect(topright = display.topright)
+
     ui_data = {
 
         'current_state': screens['intro'],
 
         'timer_font': timer_font,
         'names_font': names_font,
+        'coins_font': coins_font,
 
         'player_health_bar_rect': player_health_bar_rect,
         'player_mugshot_rect': player_mugshot_rect,
@@ -368,7 +386,6 @@ def initialize_ui():
         'logo_alpha_transition_delay_time': 0,
         'logo_alpha_transition_delay': 3000,
 
-
         'play_img': play,
         'play_n': play,
         'play_h': play_h,
@@ -384,6 +401,24 @@ def initialize_ui():
         'thawk_map_icon_h': thawk_map_icon_h,
         'thawk_map_icon_rect': thawk_map_icon_rect,
         'thawk_map_icon_blit_rect': None,
+
+        'fight_text': fight_text,
+        'fight_text_rect': fight_text_rect,
+        'countdown_text_time': None,
+        'countdown_text_duration': 4000,
+
+        'count3_text': count3_text,
+        'count3_text_rect': count3_text_rect,
+        'count2_text': count2_text,
+        'count2_text_rect': count2_text_rect,
+        'count1_text': count1_text,
+        'count1_text_rect': count1_text_rect,
+
+        'countdown_mask': countdown_mask,
+        'countdown_mask_rect': countdown_mask_rect,
+
+        'coinmeter_img': coinmeter,
+        'coinmeter_rect': coinmeter_rect,
         
     }
     return ui_data
