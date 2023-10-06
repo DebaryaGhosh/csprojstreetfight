@@ -2,10 +2,13 @@ import pygame
 from settings import *
 
 def animate_background(ui_data):
+
+    # gets the animaton frames list, increases frame by speed and sets the image
     animation = ui_data['intro_backgrounds']
 
     ui_data['background_anim_frameindex'] += ui_data['background_anim_speed']
 
+    # setting frame to 0 so that animation runs in a loop
     if ui_data['background_anim_frameindex'] >= len(animation):
         ui_data['background_anim_frameindex'] = 0
     
@@ -13,52 +16,69 @@ def animate_background(ui_data):
     
 
 def show_background(ui_data):
+    # blitting the intro screen background 
     display = pygame.display.get_surface()
     offset = pygame.math.Vector2(20, 20)
     display.blit(ui_data['intro_background_img'], ui_data['intro_background_rect'].topleft - offset)
 
 def show_logo(ui_data):
+    # blitting the game logo 
     display = pygame.display.get_surface()
     offset = pygame.math.Vector2(0, 50)
     display.blit(ui_data['logo_img'], ui_data['logo_rect'].topleft - offset)
 
-def show_button(surf, rect, offset, ui_data):
+def show_button(name, offset, ui_data):
+    # blits the button at a specific rect, with an offset
     display = pygame.display.get_surface()
-    ui_data['play_blit_rect'] = display.blit(surf, rect.topleft + offset)
+    ui_data[name + '_img'].set_alpha(ui_data[name + '_alpha'])
+    ui_data[name + '_blit_rect'] = display.blit(ui_data[name + '_img'], ui_data[name + '_rect'].topleft + offset)
 
 def update_transition_anim(ui_data):
+        # checks if background has any opacity
         if ui_data['intro_alpha'] > 0:
+            # if it does, then the opacity is reduced by the given amount
             ui_data['intro_background_img'].set_alpha(int(ui_data['intro_alpha']))
             ui_data['intro_alpha'] -= 2.5
-            if ui_data['intro_alpha'] <= 0:
-                ui_data['logo_alpha_transition_delay_time'] = pygame.time.get_ticks()
 
+            # checks if the image is transparent to start timer for next transition
+            if ui_data['intro_alpha'] <= 0: 
+                ui_data['logo_alpha_transition_delay_time'] = pygame.time.get_ticks()
+        
+        # if intro background has become transparent
         if ui_data['intro_alpha'] <= 0:
             current_time = pygame.time.get_ticks()
+            # we will start reducing the opacity of the logo, but ONLY after it has been 'logo_alpha_transition_delay' ms
             if current_time - ui_data['logo_alpha_transition_delay_time'] >= ui_data['logo_alpha_transition_delay']:
                 ui_data['logo_img'].set_alpha(int(ui_data['logo_alpha']))
                 ui_data['logo_alpha'] -= 10
         
+        # if logo has become transparent as well, then we switch screens to map.
         if ui_data['logo_alpha'] <= 0:
             ui_data['current_state'] = screens['map']
 
 
 def check_button_click(ui_data, event_list):
+
+    # checks if user clicked on play button, then sets transition to True which plays transition and switches screens
     for event in event_list:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             pos = pygame.mouse.get_pos()
             if ui_data['play_blit_rect'].collidepoint(pos):
                 ui_data['transition'] = True
-                ui_data['play_alpha'] = 0
+                ui_data['play_alpha'] = 0         # the button is made transparent
+
+                # a click sound.
                 click = pygame.mixer.Sound('./audio/sfx/ui/button_click.wav')
                 click.play()
 
-def highlight_button(ui_data):
+def highlight_button(name, blit_rect, ui_data):
+
+    # if mouse pointer is on button, it highlights it.
     pos = pygame.mouse.get_pos()
-    if ui_data['play_blit_rect'].collidepoint(pos):
-        ui_data['play_img'] = ui_data['play_h']
+    if blit_rect.collidepoint(pos):
+        ui_data[name + '_img'] = ui_data[name + '_h']
     else:
-        ui_data['play_img'] = ui_data['play_n']
+        ui_data[name + '_img'] = ui_data[name + '_n']
                 
 
 def run_intro(ui_data, event_list):
@@ -74,9 +94,8 @@ def run_intro(ui_data, event_list):
     show_logo(ui_data)
 
     # buttons
-    ui_data['play_img'].set_alpha(ui_data['play_alpha'])
-    show_button(ui_data['play_img'], ui_data['play_rect'], pygame.math.Vector2(0, 150), ui_data)
-    highlight_button(ui_data)
+    show_button('play', pygame.math.Vector2(0, 150), ui_data)
+    highlight_button('play', ui_data['play_blit_rect'], ui_data)
 
     # check if buttons are clicked
     if not ui_data['transition']:
