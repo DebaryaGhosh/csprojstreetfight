@@ -108,7 +108,7 @@ def entity_set_idle_values(entity_state):
     entity_state['animation_speed'] = 0.15
 
 def check_attack(attacker, defender, attack_data, background_data, ui_data):
-    if abs(attacker['hitbox'].x - defender['hitbox'].x) < 200 and defender['is_vulnerable']:
+    if abs(attacker['hitbox'].x - defender['hitbox'].x) < 250 and defender['is_vulnerable']:
         attack = attacker['status']
         defense = defender['status']
 
@@ -124,12 +124,12 @@ def check_attack(attacker, defender, attack_data, background_data, ui_data):
             defender['is_vulnerable'] = False
             defender['vulnerability_time'] = pygame.time.get_ticks()
             background_data['bgshake_time'] = pygame.time.get_ticks()
-            if defender['health'] < 0:
+            # if defender['health'] < 0:
                 # defender['health'] = 0
-                ui_data['current_state'] = screens['map']
-                pygame.mixer.music.load('./audio/menu.mp3')
-                pygame.mixer.music.set_volume(0.5)
-                pygame.mixer.music.play(-1)
+                # ui_data['current_state'] = screens['map']
+                # pygame.mixer.music.load('./audio/menu.mp3')
+                # pygame.mixer.music.set_volume(0.5)
+                # pygame.mixer.music.play(-1)
                 
             defender['is_vulnerable'] = False
             defender['vulnerability_time'] = pygame.time.get_ticks()

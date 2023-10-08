@@ -23,7 +23,7 @@ animation_frame_data_thawk = {
     
 }
 
-def initialize_player():
+def initialize_player(client_data):
     # screen setup
     screen = pygame.display.get_surface()
 
@@ -83,10 +83,10 @@ def initialize_player():
     # stats
     status = 'idle'
     stats = {
-        'health': 100,
-        'attack': 5,
-        'defense': 7,
-        'speed': 5,
+        'health': client_data['health'],
+        'attack': client_data['attack'],
+        'defense': client_data['defense'],
+        'speed': client_data['speed'],
     }
 
     player_data = {
@@ -127,7 +127,7 @@ def initialize_player():
         'attack': stats['attack'],
         'defense': stats['defense'],
         'speed': stats['speed'],
-        'coins': 69420,
+        'coins': client_data['coins'],
 
         # vulnerability
         'is_vulnerable': False,
@@ -143,14 +143,16 @@ def initialize_player():
 
     return player_data
 
-def initialize_enemy():
+def initialize_enemy(name, enemy_init_data):
     # screen setup
     screen = pygame.display.get_surface()
     screen_rect = screen.get_rect()
 
+    character_path = enemy_init_data[name]['character_path']
+
     # sprite setup
     sprite = pygame.sprite.Sprite()
-    img = pygame.image.load('./graphics/thawk/idle/idle0.png').convert_alpha()
+    img = pygame.image.load(character_path + '/idle/idle0.png').convert_alpha()
     rect = img.get_rect()
     rect.x = 1000
     rect.y = STAGE_HEIGHT
@@ -159,7 +161,7 @@ def initialize_enemy():
     direction = pygame.math.Vector2()
 
     # animation setup
-    character_path = './graphics/thawk'
+    
     animations = {
         1: {
             'idle': [],
@@ -193,12 +195,7 @@ def initialize_enemy():
 
     #stats
     status = 'idle'
-    stats = {
-        'health': 100,
-        'attack': 6,
-        'defense': 7,
-        'speed': 3,
-    }
+    stats = enemy_init_data[name]['stats']
 
     enemy_data = {
         # sprite data
@@ -308,12 +305,12 @@ def initialize_ui():
 
     ryu_mugshot = pygame.image.load('./graphics/mugshots/ryu.png').convert_alpha()
     thawk_mugshot = pygame.image.load('./graphics/mugshots/thawk.png').convert_alpha()
+    chunli_mugshot = pygame.image.load('./graphics/mugshots/chunli.png').convert_alpha()
 
-    timer_start = pygame.time.get_ticks()
     timer_rect = pygame.Rect(450, 10, 100, 50)
 
     ryu_name_rect = pygame.Rect(100, 35, 100, 50)
-    thawk_name_rect = pygame.Rect(800, 35, 100, 50)
+    enemy_name_rect = pygame.Rect(800, 35, 100, 50)
 
     display = pygame.display.get_surface().get_rect()
 
@@ -326,7 +323,7 @@ def initialize_ui():
 
     play = pygame.image.load('./graphics/intro/ui/play_n.png').convert_alpha()
     play_h = pygame.image.load('./graphics/intro/ui/play_h.png').convert_alpha()
-    play_rect = play.get_rect(center = display.center)
+    play_rect = play.get_rect(center = display.center + pygame.math.Vector2(0, 150))
 
     level_map = pygame.image.load('./graphics/map/map1.png').convert_alpha()
     level_map_rect = level_map.get_rect(center = display.center)
@@ -334,6 +331,9 @@ def initialize_ui():
     thawk_map_icon = pygame.image.load('./graphics/map/ui/icons/thawk_icon_n.png').convert_alpha()
     thawk_map_icon_h = pygame.image.load('./graphics/map/ui/icons/thawk_icon_h.png').convert_alpha()
     thawk_map_icon_rect = thawk_map_icon.get_rect(center = (138, 180))
+    chunli_map_icon = pygame.image.load('./graphics/map/ui/icons/chunli_icon_n.png').convert_alpha()
+    chunli_map_icon_h = pygame.image.load('./graphics/map/ui/icons/chunli_icon_h.png').convert_alpha()
+    chunli_map_icon_rect = thawk_map_icon.get_rect(center = (395, 321))
 
     fight_text = pygame.image.load('./graphics/map/ui/text/fight.png').convert_alpha()
     fight_text_rect = fight_text.get_rect(center = display.center)
@@ -351,9 +351,18 @@ def initialize_ui():
     coinmeter = pygame.image.load('./graphics/map/ui/icons/coin_meter.png').convert_alpha()
     coinmeter_rect = coinmeter.get_rect(topright = display.topright)
 
+    youwin_text = pygame.image.load('./graphics/level/youwin.png').convert_alpha()
+    youlose_text = pygame.image.load('./graphics/level/youlose.png').convert_alpha()
+    youwin_text_rect = youwin_text.get_rect(center = display.center - pygame.math.Vector2(0, 150))
+    youlose_text_rect = youlose_text.get_rect(center = display.center - pygame.math.Vector2(0, 150))
+
+    next_button = pygame.image.load('./graphics/level/next_n.png').convert_alpha()
+    next_button_h = pygame.image.load('./graphics/level/next_h.png').convert_alpha()
+    next_button_rect = next_button.get_rect(center = display.center + pygame.math.Vector2(0, 150))
+
     ui_data = {
 
-        'current_state': screens['map'],
+        'current_state': screens['intro'],
 
         'timer_font': timer_font,
         'names_font': names_font,
@@ -367,11 +376,14 @@ def initialize_ui():
 
         'ryu_mug': ryu_mugshot,
         'thawk_mug': thawk_mugshot,
+        'chunli_mug': chunli_mugshot,
 
         'ryu_name_rect': ryu_name_rect,
-        'thawk_name_rect': thawk_name_rect,
+        'enemy_name_rect': enemy_name_rect,
 
-        'timer_start': timer_start,
+        'thawk_display_name': 'T-HAWK',
+        'chunli_display_name': 'CHUN-LI',
+
         'timer_rect': timer_rect,
         'time_passed': 0,
         'max_time': 3000 * 100,
@@ -406,6 +418,12 @@ def initialize_ui():
         'thawk_map_icon_rect': thawk_map_icon_rect,
         'thawk_map_icon_blit_rect': None,
 
+        'chunli_map_icon_img': chunli_map_icon,
+        'chunli_map_icon_n': chunli_map_icon,
+        'chunli_map_icon_h': chunli_map_icon_h,
+        'chunli_map_icon_rect': chunli_map_icon_rect,
+        'chunli_map_icon_blit_rect': None,
+
         'fight_text': fight_text,
         'fight_text_rect': fight_text_rect,
         'countdown_text_time': None,
@@ -423,6 +441,18 @@ def initialize_ui():
 
         'coinmeter_img': coinmeter,
         'coinmeter_rect': coinmeter_rect,
+
+        'youwin_text': youwin_text,
+        'youwin_text_rect': youwin_text_rect,
+        'youlose_text': youlose_text,
+        'youlose_text_rect': youlose_text_rect,
+
+        'next_img': next_button,
+        'next_n': next_button,
+        'next_h': next_button_h,
+        'next_rect': next_button_rect,
+        'next_blit_rect': None,
+        'next_alpha': 255,
         
     }
     return ui_data
@@ -430,7 +460,7 @@ def initialize_ui():
 def initialize_attack_data():
     attack_data = {
         'lpunch': {
-            'attack': 5,
+            'attack': 10, # 5
             'cooldown': 200,
         },
         'hkick': {
@@ -452,3 +482,58 @@ def initialize_attack_data():
     }
 
     return attack_data
+
+def initialize_level():
+    level_state = {
+        'game_over': False,
+        'game_won': False,
+
+        'player_state': None,
+        'enemy_state': None,
+        'background_data': None
+    }
+    return level_state
+
+def initialize_client():
+
+    client_data = {
+        'health': 100,
+        'attack': 5,
+        'defense': 7,
+        'speed': 5,
+        'coins': 0,
+    }
+
+    return client_data
+
+def inititialize_game():
+    game_state = {
+        'initialized_game': False,
+    }
+    return game_state
+
+def enemy_init_data():
+    enemy_init_data = {
+        'thawk': {
+            'character_path': './graphics/thawk',
+            'stats': {
+                'health': 100,
+                'attack': 6,
+                'defense': 7,
+                'speed': 3,
+            },
+            'reward': 500,
+        },
+        'chunli': {
+            'character_path': './graphics/chunli',
+            'stats': {
+                'health': 100,
+                'attack': 6,
+                'defense': 7,
+                'speed': 3,
+            },
+            'reward': 1000,
+        },
+    }
+
+    return enemy_init_data

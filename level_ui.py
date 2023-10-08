@@ -25,7 +25,7 @@ def show_bar(current, max_amount, bg_rect, color, entity_state, data1, data2):
         offset = entity_state['rect'].topleft - data2['offset'] + pygame.math.Vector2(0, -30)
     
     hitboxrect = pygame.Rect(offset[0], offset[1], entity_state['hitbox'].width, entity_state['hitbox'].height)
-    pygame.draw.rect(pygame.display.get_surface(), 'red', hitboxrect, width=3)
+    # pygame.draw.rect(pygame.display.get_surface(), 'red', hitboxrect, width=3)
 
 def show_mugshot(image, bg_rect):
     display_surface = pygame.display.get_surface()
@@ -54,22 +54,22 @@ def update_timer(timer_rect, time_start, max_time, font):
     #pygame.draw.rect(display_surface, UI_BORDER_COLOR, timer_rect)
     display_surface.blit(text_surface, text_rect)
 
-def show_names(ui_data):
+def show_names(enemy_name, ui_data):
     ryu_text = ui_data['names_font'].render('RYU', False, 'white')
-    thawk_text = ui_data['names_font'].render('T-HAWK', False, 'white')
+    thawk_text = ui_data['names_font'].render(ui_data[enemy_name + '_display_name'], False, 'white')
 
     pygame.display.get_surface().blit(ryu_text, ui_data['ryu_name_rect'])
-    pygame.display.get_surface().blit(thawk_text, ui_data['thawk_name_rect'])
+    pygame.display.get_surface().blit(thawk_text, ui_data['enemy_name_rect'])
     
 
-def display(player_data, enemy_data, ui_data, data):
+def display(enemy_name, player_data, enemy_data, ui_data, data):
     show_bar(player_data['health'], player_data['stats']['health'], ui_data['player_health_bar_rect'], PLAYER_HEALTH_COLOR, player_data, data[0], data[2])
     show_mugshot(ui_data['ryu_mug'], ui_data['player_mugshot_rect'])
 
     show_bar(enemy_data['health'], enemy_data['stats']['health'], ui_data['enemy_health_bar_rect'], ENEMY_HEALTH_COLOR, enemy_data, data[1], data[2])
-    show_mugshot(ui_data['thawk_mug'], ui_data['enemy_mugshot_rect'])
+    show_mugshot(ui_data[enemy_name + '_mug'], ui_data['enemy_mugshot_rect'])
 
     update_timer(ui_data['timer_rect'], ui_data['timer_start'], ui_data['max_time'], ui_data['timer_font'])
 
-    show_names(ui_data)
+    show_names(enemy_name, ui_data)
     

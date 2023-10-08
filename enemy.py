@@ -37,7 +37,7 @@ def enemy_ai(enemy_state, player_state, background_data):
             else:
                 enemy_state['in_range'] = True
         if not enemy_state['is_attacking'] and enemy_state['in_range']:
-            if randint(0, 100) <= 2:
+            if randint(0, 100) <= 20:
                 move = choice(['lpunch', 'hkick', 'lmkick', 'mhpunch'])
                 initialize_move(enemy_state, move)
                 #background_data['bgshake_time'] = pygame.time.get_ticks()
