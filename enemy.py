@@ -27,8 +27,8 @@ def enemy_ai(enemy_state, player_state, background_data):
 
     if not enemy_state['attack_animation_playing']:
         if enemy_state['status'] != 'walk':
-            if abs(enemy_state['hitbox'].x - player_state['hitbox'].x) > 300:
-                enemy_state['direction'].x = - enemy_state['face_direction']
+            if abs(enemy_state['hitbox'].x - player_state['hitbox'].x) > 200:
+                enemy_state['direction'].x = enemy_state['face_direction']
                 enemy_state['status'] = 'walk'
                 enemy_state['in_range'] = False
             # elif abs(enemy_state['hitbox'].x - player_state['hitbox'].x) < 100:

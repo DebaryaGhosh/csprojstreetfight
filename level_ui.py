@@ -24,8 +24,8 @@ def show_bar(current, max_amount, bg_rect, color, entity_state, data1, data2):
     else:
         offset = entity_state['rect'].topleft - data2['offset'] + pygame.math.Vector2(0, -30)
     
-    # hitboxrect = pygame.Rect(offset[0], offset[1], entity_state['hitbox'].width, entity_state['hitbox'].height)
-    # pygame.draw.rect(pygame.display.get_surface(), 'red', hitboxrect, width=3)
+    hitboxrect = pygame.Rect(offset[0], offset[1], entity_state['hitbox'].width, entity_state['hitbox'].height)
+    pygame.draw.rect(pygame.display.get_surface(), 'red', hitboxrect, width=3)
 
 def show_mugshot(image, bg_rect):
     display_surface = pygame.display.get_surface()

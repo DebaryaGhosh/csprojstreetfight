@@ -50,7 +50,10 @@ while game_is_on:
         run_game(player_state, enemy_state, background_data, ui_data, attack_data)
 
     # debug
-    debug((ui_data['intro_alpha']))
+    debug(('isjumping:'      + str(player_state['is_jumping']),
+           'inair:'          + str(player_state['inair']),
+           'isinvulnerable:' + str(not player_state['is_vulnerable'])
+    ))
     
     # misc.
     pygame.display.update()
