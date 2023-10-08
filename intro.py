@@ -27,11 +27,11 @@ def show_logo(ui_data):
     offset = pygame.math.Vector2(0, 50)
     display.blit(ui_data['logo_img'], ui_data['logo_rect'].topleft - offset)
 
-def show_button(name, offset, ui_data):
+def show_button(name, ui_data):
     # blits the button at a specific rect, with an offset
     display = pygame.display.get_surface()
     ui_data[name + '_img'].set_alpha(ui_data[name + '_alpha'])
-    ui_data[name + '_blit_rect'] = display.blit(ui_data[name + '_img'], ui_data[name + '_rect'].topleft + offset)
+    ui_data[name + '_blit_rect'] = display.blit(ui_data[name + '_img'], ui_data[name + '_rect'])
 
 def update_transition_anim(ui_data):
         # checks if background has any opacity
@@ -57,19 +57,18 @@ def update_transition_anim(ui_data):
             ui_data['current_state'] = screens['map']
 
 
-def check_button_click(ui_data, event_list):
+def check_button_click(name, ui_data, event_list):
 
     # checks if user clicked on play button, then sets transition to True which plays transition and switches screens
     for event in event_list:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             pos = pygame.mouse.get_pos()
-            if ui_data['play_blit_rect'].collidepoint(pos):
-                ui_data['transition'] = True
-                ui_data['play_alpha'] = 0         # the button is made transparent
-
+            if ui_data[name + '_blit_rect'].collidepoint(pos):
                 # a click sound.
                 click = pygame.mixer.Sound('./audio/sfx/ui/button_click.wav')
                 click.play()
+                return True
+    return False
 
 def highlight_button(name, blit_rect, ui_data):
 
@@ -94,10 +93,12 @@ def run_intro(ui_data, event_list):
     show_logo(ui_data)
 
     # buttons
-    show_button('play', pygame.math.Vector2(0, 150), ui_data)
+    show_button('play', ui_data)
     highlight_button('play', ui_data['play_blit_rect'], ui_data)
 
     # check if buttons are clicked
     if not ui_data['transition']:
-        check_button_click(ui_data, event_list)
+        if check_button_click('play', ui_data, event_list):
+            ui_data['transition'] = True
+            ui_data['play_alpha'] = 0         # the button is made transparent
         

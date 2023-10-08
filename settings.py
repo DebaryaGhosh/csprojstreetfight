@@ -11,7 +11,8 @@ STAGE_HEIGHT = 180
 screens = {
     'intro': 'intro',
     'map': 'map',
-    'level': 'level',
+    'thawk': 'thawk',
+    'chunli': 'chunli',
 }
 
 GRAVITY = 1
@@ -48,6 +49,11 @@ BUTTON_MAP = {
     'lmkick': pygame.K_a,
     'fwjump': pygame.K_e,
 }
+
+enemy_list = [
+    'thawk',
+    'chunli'
+]
 
 UI_FONT = './graphics/font/mangat.ttf'
 TIMER_FONT_SIZE = 35

@@ -4,9 +4,13 @@ import entity
 import enemy
 from level_ui import display
 from random import randint
+from intro import show_button
+from intro import highlight_button
+from intro import check_button_click
+from settings import *
 
 # updates the player. 
-def update_player(player_state, enemy_state, attack_data, background_data, ui_data):
+def update_player(player_state, enemy_state, attack_data, background_data, ui_data, event_list):
     player.get_status(player_state)
     player.key_input(player_state)
     entity.move_entity(player_state)
@@ -15,7 +19,7 @@ def update_player(player_state, enemy_state, attack_data, background_data, ui_da
     player.collisions(player_state)
     player.cooldowns(player_state)
 
-def update_enemy(enemy_state, player_state, background_data, attack_data, ui_data):
+def update_enemy(enemy_state, player_state, background_data, attack_data, ui_data, event_list):
     enemy.get_status(enemy_state)
     enemy.enemy_ai(enemy_state, player_state, background_data)
     entity.move_entity(enemy_state)
@@ -47,8 +51,8 @@ def update_background(background_data, player):
         
         pygame.display.get_surface().blit(background, bg_offset)
 
-def update_ui(ui_data, data):
-    display(data[0], data[1], ui_data, data)
+def update_ui(enemy_name, ui_data, data):
+    display(enemy_name, data[0], data[1], ui_data, data)
 
 def blit_entities(player_state, enemy_state, background_data):
     screen = pygame.display.get_surface()
@@ -87,3 +91,39 @@ def countdown(ui_data):
         
         return True
     return False
+
+def check_game_over(player_state, enemy_state, level_state):
+    if player_state['health'] <= 0:
+        level_state['game_over'] = True
+        level_state['game_won'] = False
+    elif enemy_state['health'] <= 0:
+        level_state['game_over'] = True
+        level_state['game_won'] = True
+
+def game_over(ui_data, event_list, level_state, game_state):
+    
+    display = pygame.display.get_surface()
+    mask = ui_data['countdown_mask']
+    mask_rect = ui_data['countdown_mask_rect']
+    display.blit(mask, mask_rect)
+
+    if level_state['game_won']:
+        you_win_text = ui_data['youwin_text']
+        you_win_rect = ui_data['youwin_text_rect']
+        display.blit(you_win_text, you_win_rect)
+
+    else:
+        you_lose_text = ui_data['youlose_text']
+        you_lose_rect = ui_data['youlose_text_rect']
+        display.blit(you_lose_text, you_lose_rect)
+
+    show_button('next', ui_data)
+    highlight_button('next', ui_data['next_blit_rect'], ui_data)
+    if check_button_click('next', ui_data, event_list):
+        game_state['initialized_game'] = False
+        level_state['game_over'] = False
+        level_state['game_won'] = False
+        ui_data['current_state'] = screens['map']
+        pygame.mixer.music.load('./audio/menu.mp3')
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)
