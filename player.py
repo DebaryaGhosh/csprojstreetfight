@@ -32,9 +32,13 @@ def key_input(player_state):
         if not player_state['is_attacking']:
 
             for attack_move in ATTACK_MOVES_LIST:
-                if not attack_move == 'jump':
-                    if keys[BUTTON_MAP[attack_move]]:
-                        initialize_move(player_state, attack_move)
+                if attack_move not in ATTACK_MOVES_EXCLUSIVE:
+                    try:
+                        if keys[BUTTON_MAP[attack_move]]:
+                            initialize_move(player_state, attack_move)
+                    except KeyError:
+                        pass
+                    
                     
 
 

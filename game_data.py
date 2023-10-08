@@ -33,7 +33,7 @@ def initialize_player():
     rect = img.get_rect()
     rect.x = 700
     rect.y = STAGE_HEIGHT
-    hitbox = rect
+    hitbox = rect.inflate(-70, 0)
     
     # moevement setup
     direction = pygame.math.Vector2()
@@ -53,6 +53,7 @@ def initialize_player():
             'mhpunch': [],
             'lmkick': [],
             'fwjump': [],
+            'hit': [],
         },
         -1: {
             'idle': [],
@@ -66,6 +67,7 @@ def initialize_player():
             'mhpunch': [],
             'lmkick': [],
             'fwjump': [],
+            'hit': [],
         },
     }
     for face_direction in animations.keys():
@@ -119,7 +121,7 @@ def initialize_player():
             'health': 100,
             'attack': 5,
             'defense': 7,
-            'speed': 10,
+            'speed': 5,
         },
         'health': stats['health'],
         'attack': stats['attack'],
@@ -152,7 +154,7 @@ def initialize_enemy():
     rect = img.get_rect()
     rect.x = 1000
     rect.y = STAGE_HEIGHT
-    hitbox = rect
+    hitbox = rect.inflate(-80, 0)
 
     direction = pygame.math.Vector2()
 
@@ -165,7 +167,8 @@ def initialize_enemy():
             'lpunch': [],
             'hkick': [],
             'lmkick': [],
-            'mhpunch': []
+            'mhpunch': [],
+            'hit': [],
         },
         -1: {
             'idle': [],
@@ -174,6 +177,7 @@ def initialize_enemy():
             'hkick': [],
             'lmkick': [],
             'mhpunch': [],
+            'hit': [],
         }
     }
 
@@ -190,7 +194,7 @@ def initialize_enemy():
     #stats
     status = 'idle'
     stats = {
-        'health': 100 * 3,
+        'health': 100,
         'attack': 6,
         'defense': 7,
         'speed': 3,
@@ -230,7 +234,7 @@ def initialize_enemy():
         #stats
         'status': status,
         'stats': {
-        'health': 100 * 3,
+        'health': 100,
         'attack': 6,
         'defense': 7,
         'speed': 3,
@@ -243,7 +247,7 @@ def initialize_enemy():
         # vulnerability
         'is_vulnerable': True,
         'vulnerability_time': 0,
-        'vulnerability_cooldown': 100,
+        'vulnerability_cooldown': 1500,
 
         # knockback
         'is_knockbackked': False,
@@ -349,7 +353,7 @@ def initialize_ui():
 
     ui_data = {
 
-        'current_state': screens['intro'],
+        'current_state': screens['map'],
 
         'timer_font': timer_font,
         'names_font': names_font,

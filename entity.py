@@ -43,11 +43,15 @@ def initialize_move(entity_state, move):
             entity_state['animation_speed'] = 0.2
             entity_state['direction'].x = 1
 
+    if move == 'hit':
+        entity_state['direction'].x = - entity_state['face_direction']
+        entity_state['speed'] = 10
+
 # moves the player
 def move_entity(entity_state):
 
     # entity direction reverses the direction of the enemy, so that they can avail the same formula
-    entity_state['hitbox'].x += entity_state['speed'] * entity_state['direction'].x * entity_state['entity_direction'] 
+    entity_state['hitbox'].x += entity_state['speed'] * entity_state['direction'].x #* entity_state['face_direction'] 
     entity_state['hitbox'].y += entity_state['speed'] * entity_state['direction'].y
     
     # if character is jumping, increase his y velocity by the gravity.
@@ -108,11 +112,17 @@ def check_attack(attacker, defender, attack_data, background_data, ui_data):
         attack = attacker['status']
         defense = defender['status']
 
-        if attack in ATTACK_MOVES_LIST:
+        if attack in ATTACK_MOVES_LIST and defender['is_vulnerable'] and not attack in ATTACK_MOVES_EXCLUSIVE:
             if defense == 'block' or attack == 'crouch': return
             if attack == 'block' or attack == 'crouch': return
             if attack == 'jump': return
-            defender['health'] -= attack_data[attack]['attack']
+            initialize_move(defender, 'hit')
+            try:
+                defender['health'] -= attack_data[attack]['attack']
+            except KeyError:
+                pass
+            defender['is_vulnerable'] = False
+            defender['vulnerability_time'] = pygame.time.get_ticks()
             background_data['bgshake_time'] = pygame.time.get_ticks()
             if defender['health'] < 0:
                 # defender['health'] = 0

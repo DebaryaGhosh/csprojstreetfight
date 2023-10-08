@@ -25,6 +25,13 @@ ATTACK_MOVES_LIST = [
     'lmkick',
     'fwjump',
     'jump',
+    'hit',
+]
+
+ATTACK_MOVES_EXCLUSIVE = [
+    'jump',
+    'hit',
+    
 ]
 
 BUTTON_MAP = {
