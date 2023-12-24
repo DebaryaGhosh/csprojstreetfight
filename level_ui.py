@@ -53,6 +53,7 @@ def update_timer(timer_rect, time_start, max_time, font):
     text_rect = text_surface.get_rect(center=timer_rect.center)
     #pygame.draw.rect(display_surface, UI_BORDER_COLOR, timer_rect)
     display_surface.blit(text_surface, text_rect)
+    
 
 def show_names(enemy_name, ui_data):
     ryu_text = ui_data['names_font'].render('RYU', False, 'white')

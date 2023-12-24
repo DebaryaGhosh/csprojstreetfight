@@ -100,7 +100,7 @@ def check_game_over(player_state, enemy_state, level_state):
         level_state['game_over'] = True
         level_state['game_won'] = True
 
-def game_over(ui_data, event_list, level_state, game_state):
+def game_over(ui_data, event_list, level_state, game_state, client_data, enemy_init_state):
     
     display = pygame.display.get_surface()
     mask = ui_data['countdown_mask']
@@ -111,6 +111,9 @@ def game_over(ui_data, event_list, level_state, game_state):
         you_win_text = ui_data['youwin_text']
         you_win_rect = ui_data['youwin_text_rect']
         display.blit(you_win_text, you_win_rect)
+        if not level_state['rewarded']:
+            client_data['coins'] += enemy_init_state[ui_data['current_state']]['reward']
+            level_state['rewarded'] = True
 
     else:
         you_lose_text = ui_data['youlose_text']
@@ -123,7 +126,10 @@ def game_over(ui_data, event_list, level_state, game_state):
         game_state['initialized_game'] = False
         level_state['game_over'] = False
         level_state['game_won'] = False
+        level_state['rewarded'] = False
         ui_data['current_state'] = screens['map']
         pygame.mixer.music.load('./audio/menu.mp3')
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
+
+

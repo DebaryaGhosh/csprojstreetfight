@@ -20,7 +20,7 @@ def run_level(enemy_name, client_data, game_state, ui_data, attack_data, event_l
 
         #print(type(player_state), type(enemy_state), type(background_data))
 
-        run_game(enemy_name, player_state, enemy_state, background_data, ui_data, attack_data, level_state, event_list, game_state)
+        run_game(enemy_name, player_state, enemy_state, background_data, ui_data, attack_data, level_state, event_list, game_state, client_data, enemy_init_state)
 
         debug
         debug(('isjumping:'      + str(player_state['is_jumping']),
@@ -28,7 +28,7 @@ def run_level(enemy_name, client_data, game_state, ui_data, attack_data, event_l
             'isinvulnerable:' + str(not player_state['is_vulnerable'])
         ))
 
-def run_game(enemy_name, player_state, enemy_state, background_data, ui_data, attack_data, level_state, event_list, game_state):
+def run_game(enemy_name, player_state, enemy_state, background_data, ui_data, attack_data, level_state, event_list, game_state, client_data, enemy_init_state):
     update_background(background_data, player_state)
     if not countdown(ui_data):
         if not level_state['game_over']:
@@ -38,4 +38,4 @@ def run_game(enemy_name, player_state, enemy_state, background_data, ui_data, at
             update_ui(enemy_name, ui_data, [player_state, enemy_state, background_data])
             check_game_over(player_state, enemy_state, level_state)
         else:
-            game_over(ui_data, event_list, level_state, game_state)
+            game_over(ui_data, event_list, level_state, game_state, client_data, enemy_init_state)

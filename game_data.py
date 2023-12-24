@@ -117,12 +117,7 @@ def initialize_player(client_data):
 
         #stats
         'status': status,
-        'stats': {
-            'health': 100,
-            'attack': 5,
-            'defense': 7,
-            'speed': 5,
-        },
+        'stats': stats,
         'health': stats['health'],
         'attack': stats['attack'],
         'defense': stats['defense'],
@@ -230,12 +225,7 @@ def initialize_enemy(name, enemy_init_data):
 
         #stats
         'status': status,
-        'stats': {
-        'health': 100,
-        'attack': 6,
-        'defense': 7,
-        'speed': 3,
-        },
+        'stats': stats,
         'health': stats['health'],
         'attack': stats['attack'],
         'defense': stats['defense'],
@@ -296,6 +286,7 @@ def initialize_ui():
     timer_font = pygame.font.Font(UI_FONT, TIMER_FONT_SIZE)
     names_font = pygame.font.Font(UI_FONT, NAMES_FONT_SIZE)
     coins_font = pygame.font.Font(UI_FONT, COINS_FONT_SIZE)
+    upgrades_font = pygame.font.Font(UPGRADE_FONT, UPGRADES_FONT_SIZE)
 
     player_health_bar_rect = pygame.Rect(50, 70, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT)
     player_mugshot_rect = pygame.Rect(0, 0, 150, 150)
@@ -351,6 +342,12 @@ def initialize_ui():
     coinmeter = pygame.image.load('./graphics/map/ui/icons/coin_meter.png').convert_alpha()
     coinmeter_rect = coinmeter.get_rect(topright = display.topright)
 
+    fist = pygame.image.load('./graphics/map/ui/icons/fist.png').convert_alpha()
+    fist_rect = fist.get_rect(bottomleft = display.bottomleft + pygame.math.Vector2(10, -150))
+
+    shield = pygame.image.load('./graphics/map/ui/icons/shield.png').convert_alpha()
+    shield_rect = shield.get_rect(bottomleft = display.bottomleft + pygame.math.Vector2(10, -50))
+
     youwin_text = pygame.image.load('./graphics/level/youwin.png').convert_alpha()
     youlose_text = pygame.image.load('./graphics/level/youlose.png').convert_alpha()
     youwin_text_rect = youwin_text.get_rect(center = display.center - pygame.math.Vector2(0, 150))
@@ -360,6 +357,10 @@ def initialize_ui():
     next_button_h = pygame.image.load('./graphics/level/next_h.png').convert_alpha()
     next_button_rect = next_button.get_rect(center = display.center + pygame.math.Vector2(0, 150))
 
+    upgradevec = pygame.image.load('./graphics/map/ui/icons/buttonvector.png').convert_alpha()
+    upgradevec_rect_attack = upgradevec.get_rect(bottomleft = display.bottomleft + pygame.math.Vector2(0, -100))
+    upgradevec_rect_defense = upgradevec.get_rect(bottomleft = display.bottomleft + pygame.math.Vector2(0, 0))
+
     ui_data = {
 
         'current_state': screens['intro'],
@@ -367,6 +368,7 @@ def initialize_ui():
         'timer_font': timer_font,
         'names_font': names_font,
         'coins_font': coins_font,
+        'upgrades_font': upgrades_font,
 
         'player_health_bar_rect': player_health_bar_rect,
         'player_mugshot_rect': player_mugshot_rect,
@@ -442,6 +444,12 @@ def initialize_ui():
         'coinmeter_img': coinmeter,
         'coinmeter_rect': coinmeter_rect,
 
+        'fist_img': fist,
+        'fist_rect': fist_rect,
+
+        'shield_img': shield,
+        'shield_rect': shield_rect,
+
         'youwin_text': youwin_text,
         'youwin_text_rect': youwin_text_rect,
         'youlose_text': youlose_text,
@@ -453,6 +461,10 @@ def initialize_ui():
         'next_rect': next_button_rect,
         'next_blit_rect': None,
         'next_alpha': 255,
+
+        'upgradevec_img': upgradevec,
+        'upgradevec_rect_attack': upgradevec_rect_attack,
+        'upgradevec_rect_defense': upgradevec_rect_defense,
         
     }
     return ui_data
@@ -490,18 +502,26 @@ def initialize_level():
 
         'player_state': None,
         'enemy_state': None,
-        'background_data': None
+        'background_data': None,
+
+        'rewarded': False,
     }
     return level_state
 
 def initialize_client():
 
+    import data_manager
+    data = data_manager.load_client_data()
+    print(data)
+    attack = data[1]
+    defense = data[2]
+    coins = data[3]
     client_data = {
         'health': 100,
-        'attack': 5,
-        'defense': 7,
+        'attack': attack,
+        'defense': defense,
         'speed': 5,
-        'coins': 0,
+        'coins': coins,
     }
 
     return client_data
@@ -517,22 +537,22 @@ def enemy_init_data():
         'thawk': {
             'character_path': './graphics/thawk',
             'stats': {
-                'health': 100,
+                'health': 500,
                 'attack': 6,
                 'defense': 7,
                 'speed': 3,
             },
-            'reward': 500,
+            'reward': 1750,
         },
         'chunli': {
             'character_path': './graphics/chunli',
             'stats': {
-                'health': 100,
-                'attack': 6,
-                'defense': 7,
-                'speed': 3,
+                'health': 1000,
+                'attack': 25,
+                'defense': 15,
+                'speed': 5,
             },
-            'reward': 1000,
+            'reward': 3400,
         },
     }
 

@@ -56,9 +56,11 @@ enemy_list = [
 ]
 
 UI_FONT = './graphics/font/mangat.ttf'
+UPGRADE_FONT = './graphics/font/osaka-re.ttf'
 TIMER_FONT_SIZE = 35
 NAMES_FONT_SIZE = 25
 COINS_FONT_SIZE = 20
+UPGRADES_FONT_SIZE = 25
 
 HEALTH_BAR_HEIGHT = 20
 HEALTH_BAR_WIDTH = 400
@@ -68,3 +70,14 @@ ENEMY_UI_BG_COLOR = '#222222'
 UI_BORDER_COLOR = '#111111'
 PLAYER_HEALTH_COLOR = '#222222'
 ENEMY_HEALTH_COLOR = '#fa0a22'
+
+SQL_PASS = 'Kolkata1mysql'
+
+BASE_STATS = {
+    'attack': 8,
+    'defense': 7,
+    'coins': 0
+}
+
+UPGRADE_COST = 500
+UPGRADE_INCREMENT = 2

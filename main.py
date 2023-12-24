@@ -31,6 +31,9 @@ while game_is_on:
     event_list = pygame.event.get()
     for event in event_list:
         if event.type == pygame.QUIT:
+            import data_manager
+            data = [client_data['attack'], client_data['defense'], client_data['coins']]
+            data_manager.save_client_data(data)
             game_is_on = False
 
     screen.fill('black')
