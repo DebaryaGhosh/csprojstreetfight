@@ -5,3 +5,5 @@ This game's assets may contain copyrighted material, the use of which has not al
 In accordance with Title 17 U.S.C. Section 107, the material on this site is distributed without profit to those who have expressed a prior interest in receiving the included information for educational purposes. For more information, please refer to Title 17, section 107 of the United States Code.
 
 If you wish to use copyrighted material from this site for purposes of your own that go beyond 'fair use,' you must obtain permission from the copyright owner.
+
+WARNING: ENTER SQL PASSWORD IN settings.py OR ELSE YOUR GAME WILL CRASH.
