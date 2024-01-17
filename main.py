@@ -1,3 +1,14 @@
+# IMPORTANT!!! CHECK IF MODULES ARE PRESENT -----------------------------------------------
+import subprocess, sys, pkg_resources
+
+required = {'pygame', 'mysql-connector-python'}
+installed = {pkg.key for pkg in pkg_resources.working_set}
+missing = required - installed
+
+if missing:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", 'pygame'])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", 'mysql-connector-python'])
+# --------------------------------------------------------------------------------------------
 import pygame
 from settings import *
 from game_data import *

@@ -118,7 +118,10 @@ def check_attack(attacker, defender, attack_data, background_data, ui_data):
             if attack == 'jump': return
             initialize_move(defender, 'hit')
             try:
-                defender['health'] -= attack_data[attack]['attack'] + attacker['attack']
+                total_damage = attack_data[attack]['attack'] + attacker['attack'] - defender['defense']
+                if total_damage < 0:
+                    total_damage = 0
+                defender['health'] -= total_damage
             except KeyError:
                 pass
             defender['is_vulnerable'] = False
