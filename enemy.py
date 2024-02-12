@@ -60,5 +60,3 @@ def cooldowns(enemy_state):
     if not enemy_state['is_vulnerable']:
         if current_time - enemy_state['vulnerability_time'] > enemy_state['vulnerability_cooldown']:
             enemy_state['is_vulnerable'] = True
-
-    
